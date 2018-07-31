@@ -1,0 +1,28 @@
+{
+  "name": "koa-creator",
+  "version": "1.0.0",
+  "description": "",
+  "main": "lib/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@koa/cors": "^2.2.2",
+    "fs-extra": "^7.0.0",
+    "kcors": "^2.2.2",
+    "koa": "^2.5.2",
+    "koa-better-router": "^2.1.1",
+    "koa-bodyparser": "^4.2.1",
+    "koa-compress": "^3.0.0",
+    "koa-connect": "^2.0.1",
+    "koa-helmet": "^4.0.0",
+    "koa-jwt": "^3.3.2",
+    "koa-mount": "^3.0.0",
+    "koa-proxies": "^0.7.0",
+    "koa-session": "^5.8.2",
+    "koa-static": "^5.0.0"
+  }
+}
