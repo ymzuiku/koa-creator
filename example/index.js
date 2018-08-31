@@ -5,11 +5,12 @@ const {
   listen,
   resolve,
   loadRouterDir,
-  graph,
+  useJwt,
 } = require('../src');
 
 threads(() => {
   const app = createApp();
+  useJwt(app, 'fdjsklafjdlksaf');
   const router = new Router();
   router.get('/abc', () => {
     console.log('abc');

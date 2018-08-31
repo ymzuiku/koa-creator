@@ -57,8 +57,12 @@ function createApp(staticPath = publicPath, publicUrl = '/') {
   return app;
 }
 
-function useJwt(app, secret = 'koa-createor-appkey-off-jwt') {
-  app.use(koajwt({ secret }).unless({ path: [/^\/api\/login/] }));
+function useJwt(
+  app,
+  unlessPath = [/^\/api\/login/],
+  secret = 'koa-createor-appkey-off-jwt',
+) {
+  app.use(koajwt({ secret }).unless({ path: unlessPath }));
 }
 
 function listen(app, router, port = 4100) {
@@ -100,6 +104,8 @@ function routerGraph(router, url, schema, glfns) {
 module.exports = {
   resolve: path.resolve,
   fs,
+  useJwt,
+  jwt,
   loadRouterDir,
   createApp,
   listen,
