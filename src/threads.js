@@ -3,12 +3,10 @@ let cpuCounts = require('os').cpus().length;
 cpuCounts = cpuCounts === 2 ? 1 : cpuCounts;
 
 const isDev = process.env.prod === undefined;
-
+if (isDev) {
+  cpuCounts = 2;
+}
 module.exports = function(task) {
-  if (isDev) {
-    task();
-    return;
-  }
   if (cluster.isMaster) {
     console.log(`Process: ${process.pid} runing...`);
     for (let i = 0; i < cpuCounts; i++) {

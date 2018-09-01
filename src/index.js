@@ -11,18 +11,11 @@ const jwt = require('jsonwebtoken');
 const mount = require('koa-mount');
 const Router = require('koa-router');
 const session = require('koa-session');
+const md5 = require('blueimp-md5');
 const { graphql, buildSchema } = require('graphql');
 const threads = require('./threads');
+const { autoSetTime, connectMongodb, Db, chinaTime } = require('./mongoHelper');
 
-const sessionConfig = {
-  key: 'koa:sess',
-  maxAge: 86400000,
-  overwrite: true,
-  httpOnly: true,
-  signed: true,
-  rolling: false,
-  renew: false,
-};
 const isDev = process.env.prod === undefined;
 
 const publicPath = path.resolve(process.cwd(), './public');
@@ -32,7 +25,6 @@ function createApp(staticPath = publicPath, publicUrl = '/') {
   if (isDev) {
     app.use(cors());
   }
-  app.use(session(sessionConfig, app));
   app.use(
     compress({
       threshold: 2048,
@@ -48,7 +40,6 @@ function createApp(staticPath = publicPath, publicUrl = '/') {
       }),
     ),
   );
-  console.log('public path: ' + staticPath);
   app.use(
     bodyParser({
       enableTypes: ['json', 'form'],
@@ -59,10 +50,24 @@ function createApp(staticPath = publicPath, publicUrl = '/') {
 
 function useJwt(
   app,
-  unlessPath = [/^\/api\/login/],
   secret = 'koa-createor-appkey-off-jwt',
+  unlessPath = [/^\/api\/p\//, /^\/api\/unjwt\//],
 ) {
+  // /api/p/* 或者 /api/unjwt/ 不做jwt校验
   app.use(koajwt({ secret }).unless({ path: unlessPath }));
+}
+
+const sessionConfig = {
+  key: 'koa:sess-yan',
+  maxAge: 86400000,
+  overwrite: true,
+  httpOnly: true,
+  signed: true,
+  rolling: false,
+  renew: false,
+};
+function useSession(app, config = sessionConfig) {
+  app.use(session(config, app));
 }
 
 function listen(app, router, port = 4100) {
@@ -104,6 +109,11 @@ function routerGraph(router, url, schema, glfns) {
 module.exports = {
   resolve: path.resolve,
   fs,
+  Db,
+  md5,
+  connectMongodb,
+  autoSetTime,
+  useSession,
   useJwt,
   jwt,
   loadRouterDir,
@@ -114,4 +124,5 @@ module.exports = {
   isDev,
   Router,
   routerGraph,
+  chinaTime,
 };
