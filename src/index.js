@@ -31,15 +31,17 @@ function createApp(staticPath = publicPath, publicUrl = '/') {
     }),
   );
   app.use(helmet());
-  app.use(
-    mount(
-      publicUrl,
-      fileServer(staticPath, {
-        gzip: true,
-        maxage: isDev ? 0 : 1300000, //15天,
-      }),
-    ),
-  );
+  if (staticPath) {
+    app.use(
+      mount(
+        publicUrl,
+        fileServer(staticPath, {
+          gzip: true,
+          maxage: isDev ? 0 : 1300000, //15天,
+        }),
+      ),
+    );
+  }
   app.use(
     bodyParser({
       enableTypes: ['json', 'form'],
