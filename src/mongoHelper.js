@@ -10,11 +10,11 @@ function connectMongodb(
 ) {
   if (typeof url === 'function') {
     callback = url;
+    url = defUrl;
   } else if (typeof dbName === 'function') {
     callback = dbName;
+    dbName = defDbName;
   }
-  url = defUrl;
-  dbName = defDbName;
   MongoClient.connect(
     url,
     { useNewUrlParser: true },

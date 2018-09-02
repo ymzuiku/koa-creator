@@ -51,7 +51,7 @@ function createApp(staticPath = publicPath, publicUrl = '/') {
 function useJwt(
   app,
   secret = 'koa-createor-appkey-off-jwt',
-  unlessPath = [/^\/api\/p\//, /^\/api\/unjwt\//],
+  unlessPath = [/^\/p\//, /^\/api\/p\//, /^\/api\/unjwt\//],
 ) {
   // /api/p/* 或者 /api/unjwt/ 不做jwt校验
   app.use(koajwt({ secret }).unless({ path: unlessPath }));

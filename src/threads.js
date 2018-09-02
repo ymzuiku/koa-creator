@@ -6,7 +6,8 @@ const isDev = process.env.prod === undefined;
 if (isDev) {
   cpuCounts = 2;
 }
-module.exports = function(task) {
+module.exports = function(cpus, task) {
+  cpuCounts = cpus || cpuCounts;
   if (cluster.isMaster) {
     console.log(`Process: ${process.pid} runing...`);
     for (let i = 0; i < cpuCounts; i++) {
