@@ -16,6 +16,9 @@ const { graphql, buildSchema } = require('graphql');
 const threads = require('./threads');
 const { autoSetTime, connectMongodb, Db, chinaTime } = require('./mongoHelper');
 
+const Sequelize = require('sequelize');
+const Mock = require('mockjs');
+
 const isDev = process.env.prod === undefined;
 
 const publicPath = path.resolve(process.cwd(), './public');
@@ -113,6 +116,8 @@ module.exports = {
   fs,
   Db,
   md5,
+  Sequelize,
+  Mock,
   connectMongodb,
   autoSetTime,
   useSession,

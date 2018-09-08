@@ -8,7 +8,7 @@ const $s = new Sequelize('test', 'root', '111Asd', {
   dialect: 'mysql',
   pool: {
     max: 30,
-    min: 0,
+    min: 0,a
     acquire: 30000,
     idle: 10000,
   },

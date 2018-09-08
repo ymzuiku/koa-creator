@@ -35,7 +35,9 @@
     "koa-static": "^5.0.0",
     "mockjs": "^1.0.1-beta3",
     "mongodb": "^3.1.4",
-    "nodemon": "^1.18.3"
+    "mysql2": "^1.6.1",
+    "nodemon": "^1.18.3",
+    "sequelize": "^4.38.0"
   },
   "bin": {
     "koa-nodemon": "nodemon"
