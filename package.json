@@ -1,6 +1,6 @@
 {
   "name": "koa-creator",
-  "version": "0.0.7",
+  "version": "0.0.9",
   "description": "",
   "main": "src/index.js",
   "scripts": {
@@ -36,10 +36,6 @@
     "mockjs": "^1.0.1-beta3",
     "mongodb": "^3.1.4",
     "mysql2": "^1.6.1",
-    "nodemon": "^1.18.3",
     "sequelize": "^4.38.0"
-  },
-  "bin": {
-    "koa-nodemon": "nodemon"
   }
 }
