@@ -14,7 +14,9 @@ const session = require('koa-session');
 const md5 = require('blueimp-md5');
 const { graphql, buildSchema } = require('graphql');
 const threads = require('./threads');
+const _ = require('lodash');
 const { autoSetTime, connectMongodb, Db, chinaTime } = require('./mongoHelper');
+const connectMysql = require('./mySqlHelper');
 
 const Sequelize = require('sequelize');
 const Mock = require('mockjs');
@@ -22,12 +24,19 @@ const Mock = require('mockjs');
 const isDev = process.env.prod === undefined;
 
 const publicPath = path.resolve(process.cwd(), './public');
-function createApp(staticPath = publicPath, publicUrl = '/') {
+function createApp(
+  allowOrigin = '*',
+  staticPath = publicPath,
+  publicUrl = '/',
+) {
   const app = new Koa();
   app.keys = ['koa-createor-appkey'];
-  if (isDev) {
-    app.use(cors());
-  }
+  app.use(
+    cors({
+      'Access-Control-Allow-Origin': allowOrigin,
+      'Access-Control-Max-Age': 43200,
+    }),
+  );
   app.use(
     compress({
       threshold: 2048,
@@ -90,13 +99,13 @@ function graph(schema, body, glfns, cb) {
   });
 }
 
-function loadRouterDir(router, dir) {
+function loadRouterDir(args, dir) {
   const stat = fs.lstatSync(dir);
   if (stat && stat.isDirectory()) {
     const files = fs.readdirSync(dir);
     for (let i = 0; i < files.length; i++) {
       const routerFn = require(path.resolve(dir, files[i]));
-      routerFn(router);
+      routerFn(...args);
     }
   }
 }
@@ -132,4 +141,6 @@ module.exports = {
   Router,
   routerGraph,
   chinaTime,
+  connectMysql,
+  _,
 };
