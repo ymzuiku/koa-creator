@@ -43,7 +43,7 @@ function createApp(
     }),
   );
   app.use(helmet());
-  if (staticPath) {
+  if (staticPath && fs.existsSync(staticPath)) {
     app.use(
       mount(
         publicUrl,
@@ -65,10 +65,10 @@ function createApp(
 function useJwt(
   app,
   secret = 'koa-createor-appkey-off-jwt',
-  unlessPath = [/^\/p\//, /^\/api\/p\//, /^\/api\/unjwt\//],
+  unlessPath = [/^nojwt/g],
 ) {
   // /api/p/* 或者 /api/unjwt/ 不做jwt校验
-  app.use(koajwt({ secret }).unless({ path: unlessPath }));
+  app.use(koajwt({ secret }).unless({ path: unlessPath, method: 'GET' }));
 }
 
 const sessionConfig = {
